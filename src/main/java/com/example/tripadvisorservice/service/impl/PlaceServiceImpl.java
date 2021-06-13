@@ -8,6 +8,10 @@ import com.example.tripadvisorservice.repo.PlaceRepository;
 import com.example.tripadvisorservice.service.PlaceService;
 import com.example.tripadvisorservice.service.utils.ServiceDateUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,15 +30,28 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     @Override
+    public Page<Place> getAllPlacesPageable(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo-1,pageSize);
+        return placeRepository.findAll(pageable);
+    }
+
+    @Override
     public List<Review> getPlaceReviews(int placeId) {
         Place place = placeRepository.findById(placeId).orElseThrow(()-> new RuntimeException("Place Not Found -> PlaceId: " + placeId));
         return place.getReviews();
     }
 
     @Override
-    public Place getPlaceById(int placeId) {
+    public Page<Review> getPlaceReviewsPageable(int placeId, int pageNo, int pageSize) {
         Place place = placeRepository.findById(placeId).orElseThrow(()-> new RuntimeException("Place Not Found -> PlaceId: " + placeId));
-        return place;
+        List<Review> reviews = place.getReviews();
+        Pageable pageable = PageRequest.of(pageNo,pageSize);
+        return new PageImpl<>(reviews,pageable,reviews.size());
+    }
+
+    @Override
+    public Place getPlaceById(int placeId) {
+        return placeRepository.findById(placeId).orElseThrow(()-> new RuntimeException("Place Not Found -> PlaceId: " + placeId));
     }
 
     @Override
@@ -43,8 +60,20 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     @Override
+    public Page<Place> getAllHotelsPageable(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo-1,pageSize);
+        return placeRepository.findAllByPlaceType(PlaceType.HOTEL,pageable);
+    }
+
+    @Override
     public List<Place> getAllRestaurants() {
         return placeRepository.findAllByPlaceType(PlaceType.RESTAURANT);
+    }
+
+    @Override
+    public Page<Place> getAllRestaurantPageable(int pageNo, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNo-1,pageSize);
+        return placeRepository.findAllByPlaceType(PlaceType.RESTAURANT,pageable);
     }
 
     @Override
