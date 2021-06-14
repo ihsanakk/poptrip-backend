@@ -1,6 +1,7 @@
 package com.example.tripadvisorservice.service.impl;
 
 import com.example.tripadvisorservice.controller.dto.PlaceDto;
+import com.example.tripadvisorservice.controller.dto.ReviewDto;
 import com.example.tripadvisorservice.entity.Place;
 import com.example.tripadvisorservice.entity.Review;
 import com.example.tripadvisorservice.entity.enums.PlaceType;
@@ -36,9 +37,8 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     @Override
-    public List<Review> getPlaceReviews(int placeId) {
-        Place place = placeRepository.findById(placeId).orElseThrow(()-> new RuntimeException("Place Not Found -> PlaceId: " + placeId));
-        return place.getReviews();
+    public List<ReviewDto> getPlaceReviews(int placeId) {
+        return placeRepository.getPlaceReviews(placeId);
     }
 
     @Override
@@ -84,6 +84,7 @@ public class PlaceServiceImpl implements PlaceService {
         place.setPlaceType(placeDto.getPlaceType());
         place.setImageUrl(placeDto.getPlaceImgUrl());
         place.setCreatedAt(serviceDateUtils.getDate());
+        place.setNumberOfReviews(0);
         return placeRepository.save(place);
     }
 
@@ -114,5 +115,20 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     public List<Place> searchPlaceByTitleAndDescription(String searchedValue) {
         return placeRepository.findAllByPlaceTitleContainsOrPlaceDescriptionContains(searchedValue,searchedValue);
+    }
+
+    @Override
+    public List<Place> getMostLikedHotels() {
+        return placeRepository.getMostLikedHotels();
+    }
+
+    @Override
+    public List<Place> getMostLikedRestaurants() {
+        return placeRepository.getMostLikedRestaurants();
+    }
+
+    @Override
+    public List<Place> discoverPlaces() {
+        return placeRepository.discoverPlaces();
     }
 }

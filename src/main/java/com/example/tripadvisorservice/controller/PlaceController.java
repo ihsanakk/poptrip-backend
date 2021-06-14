@@ -53,7 +53,7 @@ public class PlaceController {
         return ResponseEntity.ok().body(placeService.getAllHotelsPageable(pageNo,pageSize));
     }
 
-    @GetMapping("/getAllRestaurant")
+    @GetMapping("/getAllRestaurants")
     public ResponseEntity<?>  getAllRestaurant(){
         return ResponseEntity.ok().body(placeService.getAllRestaurants());
     }
@@ -86,6 +86,21 @@ public class PlaceController {
     @GetMapping("/searchPlace")
     public ResponseEntity<?> searchPlaces(String keyword){
         return ResponseEntity.ok().body(placeService.searchPlaceByTitleAndDescription(keyword));
+    }
+
+    @GetMapping("/getMostLikedHotels")
+    public ResponseEntity<?> getMostLikedHotels(){
+        return ResponseEntity.ok().body(placeService.getMostLikedHotels());
+    }
+
+    @GetMapping("/getMostLikedRestaurants")
+    public ResponseEntity<?> getMostLikedRestaurants(){
+        return ResponseEntity.ok().body(placeService.getMostLikedRestaurants());
+    }
+
+    @GetMapping("/discoverPlaces")
+    public ResponseEntity<?> discoverPlaces(){
+        return ResponseEntity.ok().body(placeService.discoverPlaces());
     }
 
 }

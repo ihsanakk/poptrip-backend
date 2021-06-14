@@ -1,6 +1,7 @@
 package com.example.tripadvisorservice.service;
 
 import com.example.tripadvisorservice.controller.dto.PlaceDto;
+import com.example.tripadvisorservice.controller.dto.ReviewDto;
 import com.example.tripadvisorservice.entity.Place;
 import com.example.tripadvisorservice.entity.Review;
 import com.example.tripadvisorservice.entity.enums.PlaceType;
@@ -14,7 +15,7 @@ public interface PlaceService {
 
     Page<Place> getAllPlacesPageable(int pageNo, int pageSize);
 
-    List<Review> getPlaceReviews(int placeId);
+    List<ReviewDto> getPlaceReviews(int placeId);
 
     Page<Review> getPlaceReviewsPageable(int placeId, int pageNo, int pageSize);
 
@@ -38,5 +39,10 @@ public interface PlaceService {
 
     List<Place> searchPlaceByTitleAndDescription(String searchedValue);
 
+    List<Place> getMostLikedHotels();
+
+    List<Place> getMostLikedRestaurants();
+
+    List<Place> discoverPlaces();
 
 }

@@ -12,4 +12,5 @@ public class ServiceDateUtils {
         return new Timestamp(new Date().getTime());
     }
     public Date getDate(){return new Date();}
+
 }

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -23,10 +24,16 @@ public class Place {
     @Column(name = "place_id")
     private int id;
 
+    @NonNull
     @Column(name = "place_type")
     @Enumerated(EnumType.STRING)
     private PlaceType placeType;
 
+    @Column(name = "num_of_reviews")
+    private Integer numberOfReviews;
+
+    @Column(name = "likes")
+    private Integer likes;
 
     @JsonIgnore
     @OneToMany(mappedBy = "place",fetch = FetchType.LAZY)
@@ -34,6 +41,7 @@ public class Place {
 
     @Column(name = "place_title")
     private String placeTitle;
+
 
     @Lob
     @Type(type = "org.hibernate.type.TextType")
