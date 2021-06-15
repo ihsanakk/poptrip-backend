@@ -1,5 +1,6 @@
 package com.example.tripadvisorservice.service.impl;
 
+import com.example.tripadvisorservice.advice.exception.PlaceNotFoundException;
 import com.example.tripadvisorservice.controller.dto.PlaceDto;
 import com.example.tripadvisorservice.controller.dto.ReviewDto;
 import com.example.tripadvisorservice.entity.Place;
@@ -13,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,20 +40,21 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public List<ReviewDto> getPlaceReviews(int placeId) {
+        placeRepository.findById(placeId).orElseThrow(()->new PlaceNotFoundException("Place Not Found: "+placeId));
         return placeRepository.getPlaceReviews(placeId);
     }
 
     @Override
-    public Page<Review> getPlaceReviewsPageable(int placeId, int pageNo, int pageSize) {
-        Place place = placeRepository.findById(placeId).orElseThrow(()-> new RuntimeException("Place Not Found -> PlaceId: " + placeId));
-        List<Review> reviews = place.getReviews();
+    public Page<ReviewDto> getPlaceReviewsPageable(int placeId, int pageNo, int pageSize) {
+        Place place = placeRepository.findById(placeId).orElseThrow(()->  new PlaceNotFoundException("Place Not Found: "+ placeId));
+        List<ReviewDto> reviews = placeRepository.getPlaceReviews(placeId);
         Pageable pageable = PageRequest.of(pageNo,pageSize);
         return new PageImpl<>(reviews,pageable,reviews.size());
     }
 
     @Override
     public Place getPlaceById(int placeId) {
-        return placeRepository.findById(placeId).orElseThrow(()-> new RuntimeException("Place Not Found -> PlaceId: " + placeId));
+        return placeRepository.findById(placeId).orElseThrow(()-> new PlaceNotFoundException("Place Not Found: "+ placeId));
     }
 
     @Override
@@ -90,7 +93,7 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public Place updatePlaceTitle(int placeId, PlaceDto placeDto) {
-        Place place = placeRepository.findById(placeId).orElseThrow(()-> new RuntimeException("Place Not Found -> PlaceId: " + placeId));
+        Place place = placeRepository.findById(placeId).orElseThrow(()->  new PlaceNotFoundException("Place Not Found: "+ placeId));
         place.setPlaceTitle(placeDto.getPlaceTitle());
         place.setUpdatedAt(serviceDateUtils.getTimeStamp());
         return placeRepository.save(place);
@@ -98,7 +101,7 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public Place updatePlaceDescription(int placeId, PlaceDto placeDto) {
-        Place place = placeRepository.findById(placeId).orElseThrow(()-> new RuntimeException("Place Not Found -> PlaceId: " + placeId));
+        Place place = placeRepository.findById(placeId).orElseThrow(()->  new PlaceNotFoundException("Place Not Found: "+ placeId));
         place.setPlaceDescription(placeDto.getPlaceDescription());
         place.setUpdatedAt(serviceDateUtils.getTimeStamp());
         return placeRepository.save(place);
@@ -106,7 +109,7 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     public Place updatePlaceImgUrl(int placeId, PlaceDto placeDto) {
-        Place place = placeRepository.findById(placeId).orElseThrow(()-> new RuntimeException("Place Not Found -> PlaceId: " + placeId));
+        Place place = placeRepository.findById(placeId).orElseThrow(()->  new PlaceNotFoundException("Place Not Found: "+ placeId));
         place.setImageUrl(placeDto.getPlaceImgUrl());
         place.setUpdatedAt(serviceDateUtils.getTimeStamp());
         return placeRepository.save(place);

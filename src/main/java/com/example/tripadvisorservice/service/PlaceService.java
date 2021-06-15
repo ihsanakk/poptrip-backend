@@ -17,7 +17,7 @@ public interface PlaceService {
 
     List<ReviewDto> getPlaceReviews(int placeId);
 
-    Page<Review> getPlaceReviewsPageable(int placeId, int pageNo, int pageSize);
+    Page<ReviewDto> getPlaceReviewsPageable(int placeId, int pageNo, int pageSize);
 
     Place getPlaceById(int placeId);
 
