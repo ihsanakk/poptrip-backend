@@ -17,14 +17,14 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @GetMapping("/getLastReviews")
-    private ResponseEntity<?> getLastReviews(){
+    public ResponseEntity<?> getLastReviews(){
 
         return ResponseEntity.ok().body(reviewService.getLastReviews());
 
     }
 
     @GetMapping("/getAllReviews")
-    private ResponseEntity<?> getAllReviews(){
+    public ResponseEntity<?> getAllReviews(){
         return ResponseEntity.ok().body(reviewService.getAllReviews());
     }
 }
