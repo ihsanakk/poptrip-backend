@@ -64,7 +64,7 @@ public class PlaceController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_MODERATOR','ROLE_ADMIN')")
-    @PostMapping("savePlace")
+    @PostMapping("/savePlace")
     public ResponseEntity<?>  savePlace(@RequestBody PlaceDto placeDto){
         return ResponseEntity.ok().body(placeService.savePlace(placeDto));
     }

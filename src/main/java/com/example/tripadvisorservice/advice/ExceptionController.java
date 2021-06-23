@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ExceptionController {
 
     @ExceptionHandler(PlaceNotFoundException.class)
-    protected ResponseEntity<?> handleNotFoundException(PlaceNotFoundException placeNotFoundException){
+    protected ResponseEntity<?> handlePlaceNotFoundException(PlaceNotFoundException placeNotFoundException){
         return new ResponseEntity<>(placeNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
     }
 
