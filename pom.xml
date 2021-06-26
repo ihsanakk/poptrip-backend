@@ -8,11 +8,11 @@
         <version>2.5.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.example</groupId>
-    <artifactId>tripadvisor-service</artifactId>
+    <groupId>com.poptrip</groupId>
+    <artifactId>poptrip-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>tripadvisor-service</name>
-    <description>Demo project for Spring Boot</description>
+    <name>poptrip</name>
+    <description>Poptrip</description>
     <properties>
         <java.version>1.8</java.version>
     </properties>
